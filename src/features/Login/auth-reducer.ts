@@ -6,13 +6,11 @@ import {AppThunk} from "app/store";
 import {appActions} from "app/app-reducer";
 
 
-const initialState = {
-    isLoggedIn: false
-}
-
 const slice = createSlice({
     name: 'auth',
-    initialState,
+    initialState:{
+        isLoggedIn: false
+    },
     reducers: {
         setIsLoggedIn: (state, action: PayloadAction<{ isLoggedIn: boolean }>) => {
             state.isLoggedIn = action.payload.isLoggedIn
