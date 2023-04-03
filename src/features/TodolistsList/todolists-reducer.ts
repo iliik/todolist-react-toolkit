@@ -26,13 +26,21 @@ const slice = createSlice({
             }
         },
         changeTodolistFilter: (state, action: PayloadAction<{ id: string, filter: FilterValuesType }>) => {
-            state.id = action.payload.id
+            const todolist = state.find(todolist => todolist.id === action.payload.id)
+            if (todolist) {
+                todolist.filter = action.payload.filter
+            }
         },
-        changeTodolistEntityStatus: (state, action: PayloadAction<{ id: string, status: RequestStatusType }>) => {
-            state.id = action.payload.id
+        changeTodolistEntityStatus: (state, action: PayloadAction<{ id: string, entityStatus: RequestStatusType }>) => {
+            const todolist = state.find(todolist => todolist.id === action.payload.id)
+            if (todolist) {
+                todolist.entityStatus = action.payload.entityStatus
+            }
         },
         setTodolists: (state, action: PayloadAction<{ todolists: TodolistType[] }>) => {
-            state.id = action.payload.id
+            return action.payload.todolists.map((tl) => {
+                return {...tl, filter: 'all', entityStatus: 'idle'}
+            })
         },
     }
 })
@@ -58,20 +66,6 @@ const todolistsReducer = (state: Array<TodolistDomainType> = initialState, actio
     }
 }
 
-
-export const changeTodolistTitleAC = (id: string, title: string) => ({
-    type: 'CHANGE-TODOLIST-TITLE',
-    id,
-    title
-} as const)
-export const changeTodolistFilterAC = (id: string, filter: FilterValuesType) => ({
-    type: 'CHANGE-TODOLIST-FILTER',
-    id,
-    filter
-} as const)
-export const changeTodolistEntityStatusAC = (id: string, status: RequestStatusType) => ({
-    type: 'CHANGE-TODOLIST-ENTITY-STATUS', id, status
-} as const)
 export const setTodolistsAC = (todolists: Array<TodolistType>) => ({type: 'SET-TODOLISTS', todolists} as const)
 
 // thunks
