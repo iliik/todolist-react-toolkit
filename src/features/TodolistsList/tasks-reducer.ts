@@ -20,10 +20,15 @@ const slice = createSlice({
             if (index !== -1) tasks.splice(index, 1)
         },
         addTask: (state, action: PayloadAction<{ task: TaskType }>) => {
-
+            const tasks = state[action.payload.task.todoListId]
+            tasks.unshift(action.payload.task)
         },
         updateTask: (state, action: PayloadAction<{ taskId: string, model: UpdateDomainTaskModelType, todolistId: string }>) => {
-
+            const tasks = state[action.payload.todolistId]
+            const index = tasks.findIndex(t => t.id === action.payload.taskId)
+            if (index !== -1) {
+                tasks[index] = {...tasks[index],...action.payload.model}
+            }
         },
         setTasks: (state, action: PayloadAction<{ tasks: Array<TaskType>, todolistId: string }>) => {
 
