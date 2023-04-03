@@ -8,7 +8,7 @@ const initialState = {
     error: null as string | null,
     isInitialized: false
 }
-type InitialStateType = typeof initialState
+export type AppInitialStateType = typeof initialState
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
 
@@ -38,7 +38,6 @@ export const initializeAppTC = () => (dispatch: Dispatch) => {
         } else {
 
         }
-
         dispatch(appActions.setAppInitialized({isInitialized: true}));
     })
 }
