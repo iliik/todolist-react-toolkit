@@ -24,7 +24,6 @@ export function ErrorSnackbar() {
         dispatch(appActions.setAppError({error:null}));
     }
 
-
     const isOpen = error !== null;
 
     return (
