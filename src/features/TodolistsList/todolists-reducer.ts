@@ -3,7 +3,7 @@ import {appActions, RequestStatusType} from 'app/app-reducer'
 import {handleServerNetworkError} from 'utils/error-utils'
 import {AppThunk} from 'app/store';
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {clearTasksAndTodolosts} from "common/action/common.actions";
+import {clearTasksAndTodolosts, ClearTasksAndTodolostsType} from "common/action/common.actions";
 
 const initialState: Array<TodolistDomainType> = []
 
@@ -44,12 +44,12 @@ const slice = createSlice({
                 return []
             }
         },
-    extraReducers: builder => {
+        extraReducers: builder => {
             builder
-                .addCase(clearTasksAndTodolosts.type,()=> {
-                    return []
+                .addCase(clearTasksAndTodolosts.type, (state, action: PayloadAction<ClearTasksAndTodolostsType>) => {
+                    return action.payload.todolists
                 })
-    }
+        }
     },
 )
 
