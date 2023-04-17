@@ -46,7 +46,7 @@ const slice = createSlice({
         },
         extraReducers: builder => {
             builder
-                .addCase(clearTasksAndTodolosts.type, (state, action: PayloadAction<ClearTasksAndTodolostsType>) => {
+                .addCase(clearTasksAndTodolosts, (state, action ) => {
                     return action.payload.todolists
                 })
         }
