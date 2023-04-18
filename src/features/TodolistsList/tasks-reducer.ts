@@ -30,14 +30,16 @@ const slice = createSlice({
                 tasks[index] = {...tasks[index], ...action.payload.model}
             }
         },
-        setTasks: (state, action: PayloadAction<{ tasks: Array<TaskType>, todolistId: string }>) => {
-            state[action.payload.todolistId] = action.payload.tasks
-        },
     },
+
     extraReducers: builder => {
-        builder.addCase(todolistsActions.addTodolist, (state, action) => {
-            state[action.payload.todolist.id] = []
-        })
+        builder
+            .addCase(fetchTask.fulfilled, (state, action) => {
+                state[action.payload.todolistId] = action.payload.tasks
+            })
+            .addCase(todolistsActions.addTodolist, (state, action) => {
+                state[action.payload.todolist.id] = []
+            })
             .addCase(todolistsActions.removeTodolist, (state, action) => {
                 delete state[action.payload.id]
             })
@@ -57,14 +59,15 @@ const fetchTask = createAsyncThunk('tasks/fetchTasks', async (todolistId: string
     dispatch(appActions.setAppStatus({status: 'loading'}))
     const res = await todolistsAPI.getTasks(todolistId)
     const tasks = res.data.items
-    dispatch(tasksActions.setTasks({tasks, todolistId}))
     dispatch(appActions.setAppStatus({status: 'succeeded'}))
+    return ({tasks, todolistId})
 })
 
 
 export const tasksReducer = slice.reducer
 export const tasksActions = slice.actions
 export const tasksThunks = {fetchTask}
+
 
 export const removeTaskTC = (taskId: string, todolistId: string): AppThunk => (dispatch) => {
     todolistsAPI.deleteTask(todolistId, taskId)
