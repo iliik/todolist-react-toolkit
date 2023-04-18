@@ -52,40 +52,19 @@ const slice = createSlice({
     }
 })
 
-const fetchTask = createAsyncThunk('tasks/fetchTasks',(todolistId:string,thunkAPI)=>{
+const fetchTask = createAsyncThunk('tasks/fetchTasks', async (todolistId: string, thunkAPI) => {
     const {dispatch} = thunkAPI
     dispatch(appActions.setAppStatus({status: 'loading'}))
-    todolistsAPI.getTasks(todolistId)
-        .then((res) => {
-            const tasks = res.data.items
-            dispatch(tasksActions.setTasks({tasks, todolistId}))
-            dispatch(appActions.setAppStatus({status: 'succeeded'}))
-        })
+    const res = await todolistsAPI.getTasks(todolistId)
+    const tasks = res.data.items
+    dispatch(tasksActions.setTasks({tasks, todolistId}))
+    dispatch(appActions.setAppStatus({status: 'succeeded'}))
 })
 
 
 export const tasksReducer = slice.reducer
 export const tasksActions = slice.actions
 export const tasksThunks = {fetchTask}
-
-
-
-// export const fetchTasksTC = (todolistId: string): AppThunk => (dispatch) => {
-//     dispatch(appActions.setAppStatus({status: 'loading'}))
-//     todolistsAPI.getTasks(todolistId)
-//         .then((res) => {
-//             const tasks = res.data.items
-//             dispatch(tasksActions.setTasks({tasks, todolistId}))
-//             dispatch(appActions.setAppStatus({status: 'succeeded'}))
-//         })
-// }
-
-
-
-
-
-
-
 
 export const removeTaskTC = (taskId: string, todolistId: string): AppThunk => (dispatch) => {
     todolistsAPI.deleteTask(todolistId, taskId)
