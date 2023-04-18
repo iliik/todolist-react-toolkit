@@ -105,7 +105,7 @@ const addTask = createAppAsyncThunk<{ task: TaskType },AddTaskArgType>('tasks/fe
 
 export const tasksReducer = slice.reducer
 export const tasksActions = slice.actions
-export const tasksThunks = {fetchTask, fetchAddTask: addTask}
+export const tasksThunks = {fetchTask, addTask}
 
 
 export const removeTaskTC = (taskId: string, todolistId: string): AppThunk => (dispatch) => {

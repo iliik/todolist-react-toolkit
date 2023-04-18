@@ -4,7 +4,7 @@ import {EditableSpan} from 'components/EditableSpan/EditableSpan'
 import {Task} from './Task/Task'
 import {TaskStatuses, TaskType} from 'api/todolists-api'
 import {FilterValuesType, TodolistDomainType} from '../todolists-reducer'
-import {AddTaskThunks, tasksThunks} from '../tasks-reducer'
+import {tasksThunks} from '../tasks-reducer'
 import {useAppDispatch} from 'hooks/useAppDispatch';
 import {Button, IconButton} from '@mui/material'
 import {Delete} from '@mui/icons-material'
@@ -34,7 +34,7 @@ export const Todolist = React.memo(function ({demo = false, ...props}: PropsType
     }, [])
 
     const addTask = useCallback((title: string) => {
-        dispatch(tasksThunks.fetchAddTask(title, props.todolist.id))
+        props.addTask(title, props.todolist.id)
     }, [props.addTask, props.todolist.id])
 
     const removeTodolist = () => {
