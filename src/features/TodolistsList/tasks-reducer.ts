@@ -6,6 +6,7 @@ import {appActions} from "app/app-reducer";
 import {todolistsActions} from "features/TodolistsList/todolists-reducer";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {clearTasksAndTodolosts} from "common/action/common.actions";
+import {createAppAsyncThunk} from "utils/create-app-async-thunk";
 
 
 const initialState: TasksStateType = {}
@@ -55,7 +56,7 @@ const slice = createSlice({
     }
 })
 
-const fetchTask = createAsyncThunk<{ tasks: TaskType[], todolistId: string }, string, { rejectValue: null  }>
+const fetchTask = createAppAsyncThunk<{ tasks: TaskType[], todolistId: string }, string>
 ('tasks/fetchTasks', async (todolistId, thunkAPI) => {
     const {dispatch, rejectWithValue} = thunkAPI
     try {
@@ -64,8 +65,8 @@ const fetchTask = createAsyncThunk<{ tasks: TaskType[], todolistId: string }, st
         const tasks = res.data.items
         dispatch(appActions.setAppStatus({status: 'succeeded'}))
         return ({tasks, todolistId})
-    } catch (error: any) {
-        handleServerNetworkError(error, dispatch)
+    } catch (e) {
+        handleServerNetworkError(e, dispatch)
         return rejectWithValue(null)
     }
 
