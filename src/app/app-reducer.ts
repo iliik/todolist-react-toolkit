@@ -1,7 +1,8 @@
 import {Dispatch} from 'redux'
-import {authAPI, ResultCode} from 'common/api/common-api'
 import {authActions} from "features/auth/auth-reducer";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {authAPI} from "features/auth/auth.api";
+import {ResultCode} from "common/components/enums";
 
 const initialState = {
     status: 'idle' as RequestStatusType,
