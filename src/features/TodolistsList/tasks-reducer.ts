@@ -6,15 +6,15 @@ import {
     todolistsAPI,
     UpdateTaskModelType,
     UpdateTaskType
-} from 'api/todolists-api'
+} from 'common/api/todolists-api'
 import {AppThunk} from 'app/store'
-import {handleServerAppError} from 'utils/handler-server-netvork-error'
+import {handleServerAppError} from 'common/utils/handler-server-netvork-error'
 import {appActions} from "app/app-reducer";
 import {todolistsActions} from "features/TodolistsList/todolists-reducer";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {clearTasksAndTodolosts} from "common/action/common.actions";
-import {createAppAsyncThunk} from "utils/create-app-async-thunk";
-import {handleServerNetworkError} from "utils/handler-server-app-error";
+import {createAppAsyncThunk} from "common/utils/create-app-async-thunk";
+import {handleServerNetworkError} from "common/utils/handler-server-app-error";
 
 
 const initialState: TasksStateType = {}

@@ -1,4 +1,4 @@
-import {TaskPriorities, TaskStatuses} from 'api/todolists-api'
+import {TaskPriorities, TaskStatuses} from 'common/api/todolists-api'
 import {todolistsActions, todolistsReducer} from "features/TodolistsList/todolists-reducer";
 import {tasksActions, tasksReducer, TasksStateType, tasksThunks} from "features/TodolistsList/tasks-reducer";
 

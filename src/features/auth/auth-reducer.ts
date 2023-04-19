@@ -1,10 +1,10 @@
-import {authAPI, LoginParamsType, ResultCode} from 'api/todolists-api'
-import {handleServerAppError} from 'utils/handler-server-netvork-error'
+import {authAPI, LoginParamsType, ResultCode} from 'common/api/todolists-api'
+import {handleServerAppError} from 'common/utils/handler-server-netvork-error'
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {AppThunk} from "app/store";
 import {appActions} from "app/app-reducer";
 import {clearTasksAndTodolosts} from "common/action/common.actions";
-import {handleServerNetworkError} from "utils/handler-server-app-error";
+import {handleServerNetworkError} from "common/utils/handler-server-app-error";
 
 
 const slice = createSlice({
