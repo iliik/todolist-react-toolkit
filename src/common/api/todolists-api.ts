@@ -1,5 +1,6 @@
 import axios from 'axios'
 import {UpdateDomainTaskModelType} from "features/TodolistsList/tasks-reducer";
+import {TaskPriorities, TaskStatuses} from "common/components/enums/common-enums";
 
 const settings = {
     withCredentials: true,
@@ -90,26 +91,6 @@ export type ResponseType<D = {}> = {
     data: D
 }
 
-export enum TaskStatuses {
-    New = 0,
-    InProgress = 1,
-    Completed = 2,
-    Draft = 3
-}
-
-export enum TaskPriorities {
-    Low = 0,
-    Middle = 1,
-    Hi = 2,
-    Urgently = 3,
-    Later = 4
-}
-
-export const ResultCode = {
-    Success: 0,
-    Error: 1,
-    Captcha: 10
-}
 
 export type TaskType = {
     description: string
