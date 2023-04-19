@@ -24,7 +24,6 @@ export const Login = () => {
                     password: 'Password is required'
                 }
             }
-
         },
         initialValues: {
             email: '',
