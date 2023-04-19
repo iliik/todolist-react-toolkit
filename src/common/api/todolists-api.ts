@@ -2,15 +2,13 @@ import axios from 'axios'
 import {UpdateDomainTaskModelType} from "features/TodolistsList/tasks-reducer";
 import {TaskPriorities, TaskStatuses} from "common/components/enums/common-enums";
 
-const settings = {
+
+export const instance = axios.create({
+    baseURL: 'https://social-network.samuraijs.com/api/1.1/',
     withCredentials: true,
     headers: {
         'API-KEY': '1cdd9f77-c60e-4af5-b194-659e4ebd5d41'
     }
-}
-const instance = axios.create({
-    baseURL: 'https://social-network.samuraijs.com/api/1.1/',
-    ...settings
 })
 
 // api
@@ -58,20 +56,7 @@ export type LoginParamsType = {
     captcha?: string
 }
 
-export const authAPI = {
-    login(data: LoginParamsType) {
-        const promise = instance.post<ResponseType<{ userId?: number }>>('auth/login', data);
-        return promise;
-    },
-    logout() {
-        const promise = instance.delete<ResponseType<{ userId?: number }>>('auth/login');
-        return promise;
-    },
-    me() {
-        const promise = instance.get<ResponseType<{ id: number; email: string; login: string }>>('auth/me');
-        return promise
-    }
-}
+
 export type UpdateTaskType = {
     taskId: string,
     domainModel: UpdateDomainTaskModelType,
