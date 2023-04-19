@@ -1,4 +1,4 @@
-import {instance, ResponseType} from "common/api/common-api";
+import {instance} from "common/api/common-api";
 
 export const authAPI = {
     login(data: LoginParamsType) {

@@ -1,0 +1,1 @@
+export {ResponseType} from './common.types'
