@@ -43,8 +43,6 @@ export type AddTaskArgType = {
     todolistId: string
 }
 
-
-
 export type UpdateTaskType = {
     taskId: string,
     domainModel: UpdateDomainTaskModelType,

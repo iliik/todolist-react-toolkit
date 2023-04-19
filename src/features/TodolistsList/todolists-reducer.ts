@@ -1,9 +1,9 @@
-import {commonApi, TodolistType} from 'common/api/common-api'
 import {appActions, RequestStatusType} from 'app/app-reducer'
 import {AppThunk} from 'app/store';
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {clearTasksAndTodolosts} from "common/action/common.actions";
 import {handleServerNetworkError} from "common/utils/handler-server-app-error";
+import {todolistsApi, TodolistType} from "features/TodolistsList/todolists.api";
 
 const initialState: Array<TodolistDomainType> = []
 
@@ -61,7 +61,7 @@ export const todolistsActions = slice.actions
 export const fetchTodolistsTC = (): AppThunk => {
     return (dispatch) => {
         dispatch(appActions.setAppStatus({status: 'loading'}))
-        commonApi.getTodolists()
+        todolistsApi.getTodolists()
             .then((res) => {
                 dispatch(todolistsActions.setTodolists({todolists: res.data}))
                 dispatch(appActions.setAppStatus({status: 'succeeded'}))
@@ -77,7 +77,7 @@ export const removeTodolistTC = (id: string): AppThunk => {
         dispatch(appActions.setAppStatus({status: 'loading'}))
         //изменим статус конкретного тудулиста, чтобы он мог задизеблить что надо
         dispatch(todolistsActions.changeTodolistEntityStatus({entityStatus: 'loading', id}))
-        commonApi.deleteTodolist(id)
+        todolistsApi.deleteTodolist(id)
             .then((res) => {
                 dispatch(todolistsActions.removeTodolist({id}))
                 //скажем глобально приложению, что асинхронная операция завершена
@@ -88,7 +88,7 @@ export const removeTodolistTC = (id: string): AppThunk => {
 export const addTodolistTC = (title: string): AppThunk => {
     return (dispatch) => {
         dispatch(appActions.setAppStatus({status: 'succeeded'}))
-        commonApi.createTodolist(title)
+        todolistsApi.createTodolist(title)
             .then((res) => {
                 dispatch(todolistsActions.addTodolist({todolist: res.data.data.item}))
                 dispatch(appActions.setAppStatus({status: 'succeeded'}))
@@ -97,7 +97,7 @@ export const addTodolistTC = (title: string): AppThunk => {
 }
 export const changeTodolistTitleTC = (id: string, title: string): AppThunk => {
     return (dispatch) => {
-        commonApi.updateTodolist(id, title)
+        todolistsApi.updateTodolist(id, title)
             .then((res) => {
                 dispatch(todolistsActions.changeTodolistTitle({id, title}))
             })

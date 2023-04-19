@@ -16,7 +16,8 @@ import {useAppDispatch} from 'common/hooks/useAppDispatch';
 import {selectTasks, selectTodolists} from "features/TodolistsList/todolists.selector";
 import {selectIsLoggedIn} from "features/auth/auth.selectors";
 import {AddItemForm} from "common/components";
-import {TaskStatuses} from "common/components/enums/common-enums";
+import {TaskStatuses} from "common/components/enums";
+
 
 type PropsType = {
     demo?: boolean
