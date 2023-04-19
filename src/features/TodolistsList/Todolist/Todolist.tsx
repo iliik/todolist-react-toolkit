@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect} from 'react'
 import {Task} from './Task/Task'
-import {TaskStatuses, TaskType} from 'common/api/todolists-api'
+import {TaskStatuses, TaskType} from 'common/api/common-api'
 import {FilterValuesType, TodolistDomainType} from '../todolists-reducer'
 import {tasksThunks} from '../tasks-reducer'
 import {useAppDispatch} from 'common/hooks/useAppDispatch';

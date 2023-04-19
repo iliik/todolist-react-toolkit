@@ -3,10 +3,10 @@ import {
     TaskPriorities,
     TaskStatuses,
     TaskType,
-    todolistsAPI,
+    commonApi,
     UpdateTaskModelType,
     UpdateTaskType
-} from 'common/api/todolists-api'
+} from 'common/api/common-api'
 import {AppThunk} from 'app/store'
 import {appActions} from "app/app-reducer";
 import {todolistsActions} from "features/TodolistsList/todolists-reducer";
@@ -65,7 +65,7 @@ const fetchTask = createAppAsyncThunk<{ tasks: TaskType[], todolistId: string },
     const {dispatch, rejectWithValue} = thunkAPI
     try {
         dispatch(appActions.setAppStatus({status: 'loading'}))
-        const res = await todolistsAPI.getTasks(todolistId)
+        const res = await commonApi.getTasks(todolistId)
         const tasks = res.data.items
         dispatch(appActions.setAppStatus({status: 'succeeded'}))
         return ({tasks, todolistId})
@@ -80,7 +80,7 @@ const addTask = createAppAsyncThunk<{ task: TaskType }, AddTaskArgType>('tasks/f
     const {dispatch, rejectWithValue} = thunkAPI
     try {
         dispatch(appActions.setAppStatus({status: 'loading'}))
-        const res = await todolistsAPI.createTask(arg)
+        const res = await commonApi.createTask(arg)
         if (res.data.resultCode === ResultCode.Success) {
             const task = res.data.data.item
             dispatch(appActions.setAppStatus({status: 'succeeded'}))
@@ -116,7 +116,7 @@ const updateTask = createAppAsyncThunk<UpdateTaskType, UpdateTaskType>
             status: task.status,
             ...arg.domainModel
         }
-        const res = await todolistsAPI.updateTask(arg.todolistId, arg.taskId, apiModel)
+        const res = await commonApi.updateTask(arg.todolistId, arg.taskId, apiModel)
         if (res.data.resultCode === ResultCode.Success) {
             dispatch(appActions.setAppStatus({status: 'succeeded'}))
             return arg
@@ -137,7 +137,7 @@ export const tasksThunks = {fetchTask, addTask, updateTask}
 
 
 export const removeTaskTC = (taskId: string, todolistId: string): AppThunk => (dispatch) => {
-    todolistsAPI.deleteTask(todolistId, taskId)
+    commonApi.deleteTask(todolistId, taskId)
         .then(res => {
             const action = tasksActions.removeTask({taskId, todolistId})
             dispatch(action)

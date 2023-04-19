@@ -1,18 +1,8 @@
-import axios from 'axios'
+import {instance,} from "common/api/common-api";
 import {UpdateDomainTaskModelType} from "features/TodolistsList/tasks-reducer";
 import {TaskPriorities, TaskStatuses} from "common/components/enums/common-enums";
 
-
-export const instance = axios.create({
-    baseURL: 'https://social-network.samuraijs.com/api/1.1/',
-    withCredentials: true,
-    headers: {
-        'API-KEY': '1cdd9f77-c60e-4af5-b194-659e4ebd5d41'
-    }
-})
-
-// api
-export const todolistsAPI = {
+export const todolistsApi = {
     getTodolists() {
         const promise = instance.get<TodolistType[]>('todo-lists');
         return promise;
@@ -43,18 +33,16 @@ export const todolistsAPI = {
     }
 }
 
-
+type GetTasksResponse = {
+    error: string | null
+    totalCount: number
+    items: TaskType[]
+}
 export type AddTaskArgType = {
     title: string
     todolistId: string
 }
 
-export type LoginParamsType = {
-    email: string
-    password: string
-    rememberMe: boolean
-    captcha?: string
-}
 
 
 export type UpdateTaskType = {
@@ -97,8 +85,4 @@ export type UpdateTaskModelType = {
     startDate: string
     deadline: string
 }
-type GetTasksResponse = {
-    error: string | null
-    totalCount: number
-    items: TaskType[]
-}
+

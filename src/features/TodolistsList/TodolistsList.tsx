@@ -9,7 +9,6 @@ import {
     todolistsActions
 } from './todolists-reducer'
 import {removeTaskTC, tasksThunks} from './tasks-reducer'
-import {TaskStatuses} from 'common/api/todolists-api'
 import {Grid, Paper} from '@mui/material'
 import {Todolist} from './Todolist/Todolist'
 import {Navigate} from 'react-router-dom'
@@ -17,6 +16,7 @@ import {useAppDispatch} from 'common/hooks/useAppDispatch';
 import {selectTasks, selectTodolists} from "features/TodolistsList/todolists.selector";
 import {selectIsLoggedIn} from "features/auth/auth.selectors";
 import {AddItemForm} from "common/components";
+import {TaskStatuses} from "common/components/enums/common-enums";
 
 type PropsType = {
     demo?: boolean
