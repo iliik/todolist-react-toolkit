@@ -8,14 +8,11 @@ import {
     UpdateTaskType
 } from 'common/api/todolists-api'
 import {AppThunk} from 'app/store'
-// import {handleServerAppError} from 'common/utils/handler-server-netvork-error'
 import {appActions} from "app/app-reducer";
 import {todolistsActions} from "features/TodolistsList/todolists-reducer";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {clearTasksAndTodolosts} from "common/action/common.actions";
-import {createAppAsyncThunk} from "common/utils/create-app-async-thunk";
-import {handleServerNetworkError} from "common/utils/handler-server-app-error";
-import {handleServerAppError} from "common/utils";
+import {createAppAsyncThunk, handleServerAppError, handleServerNetworkError} from "common/utils";
 
 
 const initialState: TasksStateType = {}
