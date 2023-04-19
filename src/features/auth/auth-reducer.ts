@@ -1,5 +1,5 @@
 import {authAPI, LoginParamsType} from 'api/todolists-api'
-import {handleServerAppError, handleServerNetworkError} from 'utils/error-utils'
+import {handleServerAppError, handleServerNetworkError} from 'utils/handler-server-netvork-error'
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {AppThunk} from "app/store";
 import {appActions} from "app/app-reducer";

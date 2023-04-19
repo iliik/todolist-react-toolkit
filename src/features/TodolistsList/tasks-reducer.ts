@@ -8,7 +8,7 @@ import {
 } from 'api/todolists-api'
 import {Dispatch} from 'redux'
 import {AppRootStateType, AppThunk} from 'app/store'
-import {handleServerAppError, handleServerNetworkError} from 'utils/error-utils'
+import {handleServerAppError, handleServerNetworkError} from 'utils/handler-server-netvork-error'
 import {appActions} from "app/app-reducer";
 import {todolistsActions} from "features/TodolistsList/todolists-reducer";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
