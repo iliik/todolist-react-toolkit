@@ -90,7 +90,6 @@ const addTask = createAppAsyncThunk<{ task: TaskType },AddTaskArgType>('tasks/fe
         const res = await todolistsAPI.createTask(arg)
         if (res.data.resultCode === 0) {
             const task = res.data.data.item
-            dispatch(tasksActions.addTask({task}))
             dispatch(appActions.setAppStatus({status: 'succeeded'}))
             return {task}
         } else {
