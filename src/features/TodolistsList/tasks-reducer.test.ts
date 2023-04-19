@@ -39,7 +39,6 @@ beforeEach(() => {
 test('correct task should be deleted from correct array', () => {
     const action = tasksActions.removeTask({taskId: "2", todolistId: "todolistId2"});
 
-
     const endState = tasksReducer(startState, action)
 
     expect(endState["todolistId1"].length).toBe(3);
@@ -99,7 +98,6 @@ test('new array should be added when new todolist is added', () => {
     });
 
     const endState = tasksReducer(startState, action)
-
 
     const keys = Object.keys(endState);
     const newKey = keys.find(k => k != "todolistId1" && k != "todolistId2");
