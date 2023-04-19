@@ -1,4 +1,4 @@
-import {authAPI, LoginParamsType} from 'api/todolists-api'
+import {authAPI, LoginParamsType, ResultCode} from 'api/todolists-api'
 import {handleServerAppError} from 'utils/handler-server-netvork-error'
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {AppThunk} from "app/store";
@@ -27,7 +27,7 @@ export const loginTC = (data: LoginParamsType): AppThunk => (dispatch) => {
     dispatch(appActions.setAppStatus({status: 'loading'}))
     authAPI.login(data)
         .then(res => {
-            if (res.data.resultCode === 0) {
+            if (res.data.resultCode === ResultCode.Success) {
                 dispatch(authActions.setIsLoggedIn({isLoggedIn: true}))
                 dispatch(appActions.setAppStatus({status: 'succeeded'}))
             } else {
@@ -42,7 +42,7 @@ export const logoutTC = (): AppThunk => (dispatch) => {
     dispatch(appActions.setAppStatus({status: 'loading'}))
     authAPI.logout()
         .then(res => {
-            if (res.data.resultCode === 0) {
+            if (res.data.resultCode === ResultCode.Success) {
                 dispatch(authActions.setIsLoggedIn({isLoggedIn: false}))
                 dispatch(clearTasksAndTodolosts({tasks: {}, todolists: []}))
                 dispatch(appActions.setAppStatus({status: 'succeeded'}))
