@@ -96,11 +96,6 @@ const addTask = createAppAsyncThunk<{ task: TaskType }, AddTaskArgType>('tasks/f
     }
 })
 
-export const tasksReducer = slice.reducer
-export const tasksActions = slice.actions
-export const tasksThunks = {fetchTask, addTask,updateTask}
-
-
 const updateTask = createAppAsyncThunk<UpdateTaskType, UpdateTaskType>
 ('tasks/updateTask', async (arg, thunkAPI) => {
     const {dispatch, rejectWithValue, getState} = thunkAPI
@@ -135,6 +130,13 @@ const updateTask = createAppAsyncThunk<UpdateTaskType, UpdateTaskType>
         return rejectWithValue(null)
     }
 })
+
+export const tasksReducer = slice.reducer
+export const tasksActions = slice.actions
+export const tasksThunks = {fetchTask, addTask,updateTask}
+
+
+
 
 export const removeTaskTC = (taskId: string, todolistId: string): AppThunk => (dispatch) => {
     todolistsAPI.deleteTask(todolistId, taskId)
