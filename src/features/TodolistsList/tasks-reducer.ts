@@ -83,7 +83,7 @@ const fetchTask = createAppAsyncThunk<{ tasks: TaskType[], todolistId: string },
 })
 
 
-const addTask = createAppAsyncThunk<{ task: TaskType },AddTaskArgType>('tasks/fetchAddTask', async (arg, thunkAPI) => {
+const addTask = createAppAsyncThunk<{ task: TaskType }, AddTaskArgType>('tasks/fetchAddTask', async (arg, thunkAPI) => {
     const {dispatch, rejectWithValue} = thunkAPI
     try {
         dispatch(appActions.setAppStatus({status: 'loading'}))
@@ -107,24 +107,17 @@ export const tasksActions = slice.actions
 export const tasksThunks = {fetchTask, addTask}
 
 
-export const removeTaskTC = (taskId: string, todolistId: string): AppThunk => (dispatch) => {
-    todolistsAPI.deleteTask(todolistId, taskId)
-        .then(res => {
-            const action = tasksActions.removeTask({taskId, todolistId})
-            dispatch(action)
-        })
-}
+const updateTask = createAppAsyncThunk<any, { taskId: string, domainModel: UpdateDomainTaskModelType, todolistId: string }>
+('tasks/updateTask', async (arg, thunkAPI) => {
+    const {dispatch, rejectWithValue, getState} = thunkAPI
 
-export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelType, todolistId: string) =>
-    (dispatch: Dispatch, getState: () => AppRootStateType) => {
+    try {
         const state = getState()
-        const task = state.tasks[todolistId].find(t => t.id === taskId)
+        const task = state.tasks[arg.todolistId].find(t => t.id === arg.taskId)
         if (!task) {
-            //throw new Error("task not found in the state");
             console.warn('task not found in the state')
             return
         }
-
         const apiModel: UpdateTaskModelType = {
             deadline: task.deadline,
             description: task.description,
@@ -132,21 +125,62 @@ export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelT
             startDate: task.startDate,
             title: task.title,
             status: task.status,
-            ...domainModel
+            ...arg.domainModel
         }
+        const res = await todolistsAPI.updateTask(arg.todolistId, arg.taskId, apiModel)
+        if (res.data.resultCode === 0) {
 
-        todolistsAPI.updateTask(todolistId, taskId, apiModel)
-            .then(res => {
-                if (res.data.resultCode === 0) {
-                    dispatch(tasksActions.updateTask({taskId, model: domainModel, todolistId}))
-                } else {
-                    handleServerAppError(res.data, dispatch);
-                }
-            })
-            .catch((error) => {
-                handleServerNetworkError(error, dispatch);
-            })
+            dispatch(tasksActions.updateTask({taskId: arg.taskId, model: arg.domainModel, todolistId: arg.todolistId}))
+
+        } else {
+            handleServerAppError(res.data, dispatch);
+        }
+    } catch (e) {
+        handleServerNetworkError(e, dispatch)
+        return rejectWithValue(null)
     }
+})
+
+// const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelType, todolistId: string) =>
+//    (dispatch: Dispatch, getState: () => AppRootStateType) => {
+//        const state = getState()
+//        const task = state.tasks[todolistId].find(t => t.id === taskId)
+//        if (!task) {
+//            //throw new Error("task not found in the state");
+//            console.warn('task not found in the state')
+//            return
+//        }
+
+export const removeTaskTC = (taskId: string, todolistId: string): AppThunk => (dispatch) => {
+    todolistsAPI.deleteTask(todolistId, taskId)
+        .then(res => {
+            const action = tasksActions.removeTask({taskId, todolistId})
+            dispatch(action)
+        })
+}
+//
+// const apiModel: UpdateTaskModelType = {
+//     deadline: task.deadline,
+//     description: task.description,
+//     priority: task.priority,
+//     startDate: task.startDate,
+//     title: task.title,
+//     status: task.status,
+//     ...domainModel
+// }
+
+// todolistsAPI.updateTask(todolistId, taskId, apiModel)
+//     .then(res => {
+//         if (res.data.resultCode === 0) {
+//             dispatch(tasksActions.updateTask({taskId, model: domainModel, todolistId}))
+//         } else {
+//             handleServerAppError(res.data, dispatch);
+//         }
+//     })
+//     .catch((error) => {
+//         handleServerNetworkError(error, dispatch);
+//     })
+// }
 
 // types
 export type UpdateDomainTaskModelType = {
