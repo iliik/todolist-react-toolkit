@@ -11,12 +11,12 @@ import {
 import {removeTaskTC, tasksThunks} from './tasks-reducer'
 import {TaskStatuses} from 'common/api/todolists-api'
 import {Grid, Paper} from '@mui/material'
-import {AddItemForm} from 'common/components/AddItemForm/AddItemForm'
 import {Todolist} from './Todolist/Todolist'
 import {Navigate} from 'react-router-dom'
 import {useAppDispatch} from 'common/hooks/useAppDispatch';
 import {selectTasks, selectTodolists} from "features/TodolistsList/todolists.selector";
 import {selectIsLoggedIn} from "features/auth/auth.selectors";
+import {AddItemForm} from "common/components";
 
 type PropsType = {
     demo?: boolean
