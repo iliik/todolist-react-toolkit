@@ -22,7 +22,6 @@ const slice = createSlice({
 export const authReducer = slice.reducer
 export const authActions = slice.actions
 
-
 export const loginTC = (data: LoginParamsType): AppThunk => (dispatch) => {
     dispatch(appActions.setAppStatus({status: 'loading'}))
     authAPI.login(data)
