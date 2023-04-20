@@ -40,22 +40,26 @@ const logout = createAppAsyncThunk<{ isLoggedIn: boolean }, void>('auth/logout',
         return rejectWithValue(null)
     }
 })
-const initializeApp = createAppAsyncThunk<any, any>('app/initializeApp', async (arg, thunkAPI) => {
-        const {dispatch, rejectWithValue} = thunkAPI
-        try {
-            const res = await authAPI.me()
-            if (res.data.resultCode === ResultCode.Success) {
-                dispatch(appActions.setAppInitialized({isInitialized: true}));
-            }
-        } catch
-            (e) {
-            handleServerNetworkError(e, dispatch)
+
+const initializeApp = createAppAsyncThunk<{ isLoggedIn: boolean }, void>
+('app/initializeApp', async (_, thunkAPI) => {
+    const {dispatch, rejectWithValue} = thunkAPI
+    try {
+        const res = await authAPI.me()
+        if (res.data.resultCode === ResultCode.Success) {
+
+            return {isInitialized: true}
+        } else {
+            handleServerAppError(res.data, dispatch)
             return rejectWithValue(null)
-        } finally {
-            dispatch(appActions.setAppInitialized({isInitialized: true}));
         }
+    } catch (e) {
+        handleServerNetworkError(e, dispatch)
+        return rejectWithValue(null)
+    } finally {
+        dispatch(appActions.setAppInitialized({isInitialized: true}));
     }
-)
+})
 
 
 const slice = createSlice({
@@ -72,9 +76,11 @@ const slice = createSlice({
             .addCase(logout.fulfilled, (state, action) => {
                 state.isLoggedIn = action.payload.isLoggedIn
             })
+            .addCase(initializeApp.fulfilled, (state, action) => {
+                state.isLoggedIn = action.payload.isLoggedIn
+            })
     }
 })
 
 export const authReducer = slice.reducer
-export const authActions = slice.actions
-export const authThunk = {login, logOut: logout,initializeApp}
+export const authThunk = {login, logOut: logout, initializeApp}
