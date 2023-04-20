@@ -6,7 +6,7 @@ import {useDispatch, useSelector} from 'react-redux'
 import {initializeAppTC} from './app-reducer'
 import {BrowserRouter, Route, Routes} from 'react-router-dom'
 import {Login} from 'features/auth/Login'
-import {logoutTC} from 'features/auth/auth-reducer'
+
 import {
     AppBar,
     Button,
@@ -20,6 +20,7 @@ import {
 import {Menu} from '@mui/icons-material'
 import {selectIsLoggedIn} from "features/auth/auth.selectors";
 import {selectIsInitialized, selectStatus} from "app/app.selectorIsInitialized";
+import {authThunk} from "features/auth/auth-reducer";
 
 type PropsType = {
     demo?: boolean
@@ -36,7 +37,7 @@ function App({demo = false}: PropsType) {
     }, [])
 
     const logoutHandler = useCallback(() => {
-        dispatch(logoutTC())
+        dispatch(authThunk.login)
     }, [])
 
     if (!isInitialized) {

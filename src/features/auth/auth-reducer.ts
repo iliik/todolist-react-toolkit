@@ -1,5 +1,4 @@
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {AppThunk} from "app/store";
+import {createSlice} from "@reduxjs/toolkit";
 import {appActions} from "app/app-reducer";
 import {clearTasksAndTodolosts} from "common/action/common.actions";
 import {createAppAsyncThunk, handleServerAppError, handleServerNetworkError} from "common/utils";
@@ -41,6 +40,25 @@ const logout = createAppAsyncThunk<{ isLoggedIn: boolean }, void>('auth/logout',
         return rejectWithValue(null)
     }
 })
+const initializeApp = createAppAsyncThunk<any, any>('app/initializeApp', async (arg, thunkAPI) => {
+        const {dispatch, rejectWithValue} = thunkAPI
+        try {
+            const res = await authAPI.me()
+            if (res.data.resultCode === ResultCode.Success) {
+                dispatch(appActions.setAppInitialized({isInitialized: true}));
+            } else {
+
+            }
+            return {isLoggedIn: true}
+        } catch
+            (e) {
+            handleServerNetworkError(e, dispatch)
+            return rejectWithValue(null)
+        }
+    }
+)
+
+
 const slice = createSlice({
     name: 'auth',
     initialState: {
@@ -60,4 +78,4 @@ const slice = createSlice({
 
 export const authReducer = slice.reducer
 export const authActions = slice.actions
-export const authThunk = {login, logOut: logout}
+export const authThunk = {login, logOut: logout,initializeApp}
