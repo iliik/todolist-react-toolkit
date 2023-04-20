@@ -15,7 +15,7 @@ const login = createAppAsyncThunk<{ isLoggedIn: boolean }, LoginParamsType>('aut
             return {isLoggedIn: true}
         } else {
             handleServerAppError(res.data, dispatch)
-            return rejectWithValue(null)
+            return rejectWithValue(res.data)
         }
     } catch (e) {
         handleServerNetworkError(e, dispatch)
@@ -41,8 +41,7 @@ const logout = createAppAsyncThunk<{ isLoggedIn: boolean }, void>('auth/logout',
     }
 })
 
-const initializeApp = createAppAsyncThunk<{ isLoggedIn: boolean }, void>
-('app/initializeApp', async (_, thunkAPI) => {
+const initializeApp = createAppAsyncThunk<{ isLoggedIn: boolean }, void>('app/initializeApp', async (_, thunkAPI) => {
     const {dispatch, rejectWithValue} = thunkAPI
     try {
         const res = await authAPI.me()
