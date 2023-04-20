@@ -11,7 +11,7 @@ import {TaskStatuses} from "common/components/enums";
 
 type PropsType = {
     todolist: TodolistDomainType
-    tasks: Array<TaskType>
+    tasks: TaskType[]
     changeFilter: (value: FilterValuesType, todolistId: string) => void
     addTask: (title: string, todolistId: string) => void
     changeTaskStatus: (id: string, status: TaskStatuses, todolistId: string) => void
