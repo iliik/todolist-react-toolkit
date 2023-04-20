@@ -46,14 +46,13 @@ const initializeApp = createAppAsyncThunk<any, any>('app/initializeApp', async (
             const res = await authAPI.me()
             if (res.data.resultCode === ResultCode.Success) {
                 dispatch(appActions.setAppInitialized({isInitialized: true}));
-            } else {
-
             }
-            return {isLoggedIn: true}
         } catch
             (e) {
             handleServerNetworkError(e, dispatch)
             return rejectWithValue(null)
+        } finally {
+            dispatch(appActions.setAppInitialized({isInitialized: true}));
         }
     }
 )
