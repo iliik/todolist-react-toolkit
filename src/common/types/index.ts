@@ -1,3 +1,3 @@
 import {findByRole} from "@testing-library/react";
 
-export type {ResponseType} from './common.types'
+export type {ResponseTypes} from './common.types'

@@ -7,6 +7,7 @@ import {Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, G
 import {selectIsLoggedIn} from "features/auth/auth.selectors";
 import {authThunk} from "features/auth/auth-reducer";
 import {LoginParamsType} from "features/auth/auth.api";
+import {ResponseTypes} from "common/types";
 
 export const Login = () => {
     const dispatch = useAppDispatch()
@@ -15,16 +16,16 @@ export const Login = () => {
 
     const formik = useFormik({
         validate: (values) => {
-            if (!values.email) {
-                return {
-                    email: 'Email is required'
-                }
-            }
-            if (!values.password) {
-                return {
-                    password: 'Password is required'
-                }
-            }
+            // if (!values.email) {
+            //     return {
+            //         email: 'Email is required'
+            //     }
+            // }
+            // if (!values.password) {
+            //     return {
+            //         password: 'Password is required'
+            //     }
+            // }
         },
         initialValues: {
             email: '',
@@ -34,8 +35,10 @@ export const Login = () => {
         onSubmit: (values, formikHelpers: FormikHelpers<LoginParamsType>) => {
             dispatch(authThunk.login(values))
                 .unwrap()
-                .catch((reason:ResponseType) => {
-                    formikHelpers.setFieldError(reason., 'ERROR')
+                .catch((reason:ResponseTypes) => {
+                    reason.fieldsErrors.forEach((fieldError)=>{
+                        formikHelpers.setFieldError(fieldError.field, fieldError.error)
+                    })
                 });
         },
     })
