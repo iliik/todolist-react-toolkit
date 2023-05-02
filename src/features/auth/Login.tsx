@@ -1,50 +1,43 @@
 import React from 'react'
-import {FormikHelpers, useFormik} from 'formik'
-import {useSelector} from 'react-redux'
-import {Navigate} from 'react-router-dom'
-import {useAppDispatch} from 'common/hooks/useAppDispatch';
-import {Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, TextField} from '@mui/material'
-import {selectIsLoggedIn} from "features/auth/auth.selectors";
-import {authThunk} from "features/auth/auth-reducer";
-import {LoginParamsType} from "features/auth/auth.api";
-import {ResponseTypes} from "common/types";
+import { useFormik } from 'formik'
+import { useSelector } from 'react-redux'
+import { Navigate } from 'react-router-dom'
+import { Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, TextField } from '@mui/material'
+import { loginTC } from 'features/auth/auth.reducer'
+import { useAppDispatch } from 'common/hooks';
+import { selectIsLoggedIn } from 'features/auth/auth.selectors';
 
 export const Login = () => {
     const dispatch = useAppDispatch()
 
-    const isLoggedIn = useSelector(selectIsLoggedIn);
+    const isLoggedIn = useSelector(selectIsLoggedIn)
 
     const formik = useFormik({
         validate: (values) => {
-            // if (!values.email) {
-            //     return {
-            //         email: 'Email is required'
-            //     }
-            // }
-            // if (!values.password) {
-            //     return {
-            //         password: 'Password is required'
-            //     }
-            // }
+            if (!values.email) {
+                return {
+                    email: 'Email is required'
+                }
+            }
+            if (!values.password) {
+                return {
+                    password: 'Password is required'
+                }
+            }
+
         },
         initialValues: {
             email: '',
             password: '',
             rememberMe: false
         },
-        onSubmit: (values, formikHelpers: FormikHelpers<LoginParamsType>) => {
-            dispatch(authThunk.login(values))
-                .unwrap()
-                .catch((reason:ResponseTypes) => {
-                    reason.fieldsErrors.forEach((fieldError)=>{
-                        formikHelpers.setFieldError(fieldError.field, fieldError.error)
-                    })
-                });
+        onSubmit: values => {
+            dispatch(loginTC(values));
         },
     })
 
     if (isLoggedIn) {
-        return <Navigate to={"/"}/>
+        return <Navigate to={"/"} />
     }
 
 
